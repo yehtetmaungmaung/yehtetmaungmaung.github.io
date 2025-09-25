@@ -642,32 +642,26 @@ document.addEventListener('DOMContentLoaded', function() {
     updateReadingProgress(); // Initial call
   }
   
-  // Enhanced Error Handling System
+  // Simple Error Handling System - prevents infinite loops
   window.ErrorHandler = {
-    // Default fallback images
-    fallbackImages: {
-      avatar: '/assets/images/placeholder-avatar.svg',
-      social: '/assets/images/social-share-default.svg',
-      post: '/assets/images/placeholder-post.svg',
-      project: '/assets/images/placeholder-project.svg'
-    },
-    
-    // Handle image loading errors
-    handleImageError: function(img, fallbackType = 'post') {
-      const fallbackSrc = this.fallbackImages[fallbackType] || this.fallbackImages.post;
-      
-      // Prevent infinite loop if fallback also fails
-      if (img.src !== fallbackSrc) {
-        img.src = fallbackSrc;
-        img.classList.add('error-fallback');
-        img.alt = 'Image not available';
-        
-        // Log error for debugging
-        console.warn('Image failed to load:', img.dataset.originalSrc || img.src);
-      } else {
-        // Even fallback failed, show text placeholder
-        this.replaceWithTextPlaceholder(img);
+    // Handle image loading errors with a simple fallback
+    handleImageError: function(img, fallbackType = 'default') {
+      // Prevent infinite loops by checking if we already handled this image
+      if (img.dataset.errorHandled) {
+        return;
       }
+      
+      // Mark as handled to prevent loops
+      img.dataset.errorHandled = 'true';
+      
+      // Create a simple SVG placeholder
+      const svgPlaceholder = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZjVmNWY1IiBzdHJva2U9IiNkZGQiLz48dGV4dCB4PSI1MCUiIHk9IjUwJSIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjE0IiBmaWxsPSIjOTk5IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkeT0iLjNlbSI+SW1hZ2UgdW5hdmFpbGFibGU8L3RleHQ+PC9zdmc+';
+      
+      // Replace with placeholder
+      img.src = svgPlaceholder;
+      img.alt = 'Image unavailable';
+      
+      console.warn('Image failed to load, replaced with placeholder:', img.dataset.originalSrc || img.src);
     },
     
     // Replace failed image with text placeholder
@@ -798,18 +792,8 @@ document.addEventListener('DOMContentLoaded', function() {
               };
               tempImg.onerror = () => {
                 element.classList.remove('img-loading');
-                
-                // Determine fallback type based on element classes or context
-                let fallbackType = 'post';
-                if (element.classList.contains('avatar') || element.closest('.author-info')) {
-                  fallbackType = 'avatar';
-                } else if (element.classList.contains('social-share') || element.closest('.social-share')) {
-                  fallbackType = 'social';
-                } else if (element.closest('.project-card')) {
-                  fallbackType = 'project';
-                }
-                
-                window.ErrorHandler.handleImageError(element, fallbackType);
+                // Use our error handler to prevent loops
+                window.ErrorHandler.handleImageError(element);
               };
               tempImg.src = element.dataset.src;
             }
@@ -1114,19 +1098,12 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
   
-  // Service Worker registration with error handling (if available)
+  // Unregister any existing service workers to prevent caching issues
   if ('serviceWorker' in navigator) {
-    window.addEventListener('load', async function() {
-      try {
-        // Only register if we have a service worker file
-        const swResponse = await fetch('/sw.js', { method: 'HEAD' });
-        if (swResponse.ok) {
-          const registration = await navigator.serviceWorker.register('/sw.js');
-          console.log('Service Worker registered:', registration);
-        }
-      } catch (error) {
-        console.log('Service Worker registration failed:', error);
-        // Don't show error to user as this is not critical
+    navigator.serviceWorker.getRegistrations().then(function(registrations) {
+      for(let registration of registrations) {
+        registration.unregister();
+        console.log('Service Worker unregistered:', registration);
       }
     });
   }

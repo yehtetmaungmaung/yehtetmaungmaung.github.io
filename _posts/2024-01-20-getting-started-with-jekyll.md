@@ -7,7 +7,7 @@ date: 2024-01-20 14:30:00 -0500
 categories: [tutorial, web-development]
 tags: [jekyll, static-sites, ruby, github-pages, tutorial, web-development]
 excerpt: "Learn how to set up and customize Jekyll for your static site needs. This comprehensive guide covers installation, configuration, and deployment."
-featured_image: "/assets/images/blog/jekyll-guide.jpg"
+# featured_image: "/assets/images/blog/jekyll-guide.jpg"  # Add your image here
 author: "Your Name"
 ---
 

@@ -7,7 +7,7 @@ date: 2025-09-25 10:00:00 +0630
 categories: [general, announcement]
 tags: [welcome, introduction, blogging, web-development, programming]
 excerpt: "Welcome to my personal blog! This is where I'll be sharing my thoughts, tutorials, and insights on web development, technology, and more."
-featured_image: "/assets/images/blog/welcome-post.jpg"
+# featured_image: "/assets/images/blog/welcome-post.jpg"  # Add your image here
 author: "Claude Sonnet 4"
 ---
 

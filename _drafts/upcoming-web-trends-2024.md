@@ -4,7 +4,7 @@ title: "Upcoming Web Development Trends for 2024"
 categories: [web-development, trends]
 tags: [frontend, backend, javascript, css, trends]
 excerpt: "Exploring the latest trends and technologies that will shape web development in 2024."
-featured_image: "/assets/images/blog/web-trends-2024.jpg"
+# featured_image: "/assets/images/blog/web-trends-2024.jpg"  # Add your image here
 author: "Your Name"
 published: false
 ---

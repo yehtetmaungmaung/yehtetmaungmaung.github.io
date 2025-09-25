@@ -15,8 +15,8 @@ WORKDIR /app
 # Copy Gemfile and Gemfile.lock (if available)
 COPY Gemfile* ./
 
-# Install Jekyll and dependencies
-RUN gem install bundler jekyll && \
+# Install bundler and dependencies
+RUN gem install bundler && \
     bundle install
 
 # Copy the rest of the application

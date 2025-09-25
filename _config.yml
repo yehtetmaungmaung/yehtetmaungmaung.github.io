@@ -5,7 +5,7 @@ description: >-
   with an integrated blog for sharing cloud and DevOps insights.
 baseurl: ""
 url: "https://yehtetmaungmaung.github.io"
-logo: "/assets/images/placeholder-avatar.svg"
+logo: "/assets/images/avatar.jpg"
 
 # SEO settings
 lang: en_US
@@ -16,7 +16,7 @@ author:
   name: Ye Htet Maung Maung
   title: "DevOps & Cloud Engineer"
   url: "https://yehtetmaungmaung.github.io"
-  image: "/assets/images/placeholder-avatar.svg"
+  image: "/assets/images/avatar.jpg"
 
 
 
@@ -29,8 +29,10 @@ plugins:
   - jekyll-seo-tag
   - jekyll-paginate
 
-# GitHub Pages compatibility
-remote_theme: jekyll/minima
+# Theme (use minima for local development)
+theme: minima
+# For GitHub Pages deployment, use:
+# remote_theme: jekyll/minima
 
 # SEO Tag plugin settings
 seo:

@@ -1,9 +1,13 @@
 source "https://rubygems.org"
 
-# GitHub Pages compatible gems
-gem "github-pages", group: :jekyll_plugins
+# For local development
+gem "jekyll", "~> 4.3"
+gem "minima", "~> 2.5"
 
-# Additional plugins
+# For GitHub Pages (comment out for local development)
+# gem "github-pages", group: :jekyll_plugins
+
+# Jekyll plugins
 group :jekyll_plugins do
   gem "jekyll-feed", "~> 0.12"
   gem "jekyll-sitemap"
