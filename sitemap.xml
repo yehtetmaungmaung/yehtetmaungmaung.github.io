@@ -1,0 +1,75 @@
+---
+layout: null
+---
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <!-- Homepage -->
+  <url>
+    <loc>{{ site.url }}/</loc>
+    <lastmod>{{ site.time | date_to_xmlschema }}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  
+  <!-- Static pages -->
+  {% for page in site.pages %}
+    {% unless page.noindex == true %}
+      {% if page.url != "/404.html" and page.url != "/feed.xml" and page.url != "/sitemap.xml" and page.url != "/robots.txt" %}
+        <url>
+          <loc>{{ site.url }}{{ page.url }}</loc>
+          {% if page.date %}
+            <lastmod>{{ page.date | date_to_xmlschema }}</lastmod>
+          {% else %}
+            <lastmod>{{ site.time | date_to_xmlschema }}</lastmod>
+          {% endif %}
+          <changefreq>{% if page.url == "/" %}weekly{% else %}monthly{% endif %}</changefreq>
+          <priority>{% if page.url == "/" %}1.0{% elsif page.url contains "/blog" %}0.8{% else %}0.7{% endif %}</priority>
+        </url>
+      {% endif %}
+    {% endunless %}
+  {% endfor %}
+  
+  <!-- Blog posts -->
+  {% for post in site.posts %}
+    {% unless post.noindex == true %}
+      <url>
+        <loc>{{ site.url }}{{ post.url }}</loc>
+        <lastmod>{% if post.modified_date %}{{ post.modified_date | date_to_xmlschema }}{% else %}{{ post.date | date_to_xmlschema }}{% endif %}</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+      </url>
+    {% endunless %}
+  {% endfor %}
+  
+  <!-- Projects -->
+  {% for project in site.projects %}
+    {% unless project.noindex == true %}
+      <url>
+        <loc>{{ site.url }}{{ project.url }}</loc>
+        <lastmod>{% if project.modified_date %}{{ project.modified_date | date_to_xmlschema }}{% else %}{{ project.date | date_to_xmlschema }}{% endif %}</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+      </url>
+    {% endunless %}
+  {% endfor %}
+  
+  <!-- Category pages -->
+  {% for category in site.categories %}
+    <url>
+      <loc>{{ site.url }}/blog/category/{{ category[0] | slugify }}/</loc>
+      <lastmod>{{ site.time | date_to_xmlschema }}</lastmod>
+      <changefreq>weekly</changefreq>
+      <priority>0.6</priority>
+    </url>
+  {% endfor %}
+  
+  <!-- Tag pages -->
+  {% for tag in site.tags %}
+    <url>
+      <loc>{{ site.url }}/blog/tag/{{ tag[0] | slugify }}/</loc>
+      <lastmod>{{ site.time | date_to_xmlschema }}</lastmod>
+      <changefreq>weekly</changefreq>
+      <priority>0.5</priority>
+    </url>
+  {% endfor %}
+</urlset>

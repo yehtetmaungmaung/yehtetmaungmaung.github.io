@@ -1,0 +1,25 @@
+---
+layout: null
+permalink: /robots.txt
+---
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: {{ site.url }}/sitemap.xml
+
+# Disallow admin and draft areas
+Disallow: /admin/
+Disallow: /_drafts/
+Disallow: /.jekyll-cache/
+Disallow: /.sass-cache/
+
+# Allow common crawlers
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: Slurp
+Allow: /

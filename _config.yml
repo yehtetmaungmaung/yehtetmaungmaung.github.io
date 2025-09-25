@@ -1,0 +1,86 @@
+# Site settings
+title: Cloud Engineer Portfolio & Blog
+description: >-
+  A professional portfolio website showcasing cloud engineering experience, skills, and projects
+  with an integrated blog for sharing cloud and DevOps insights.
+baseurl: ""
+url: "https://yehtetmaungmaung.github.io"
+logo: "/assets/images/placeholder-avatar.svg"
+
+# SEO settings
+lang: en_US
+timezone: Asia/Singapore
+
+# Author information
+author:
+  name: Ye Htet Maung Maung
+  title: "DevOps & Cloud Engineer"
+  url: "https://yehtetmaungmaung.github.io"
+  image: "/assets/images/placeholder-avatar.svg"
+
+
+
+# Build settings
+markdown: kramdown
+highlighter: rouge
+plugins:
+  - jekyll-feed
+  - jekyll-sitemap
+  - jekyll-seo-tag
+  - jekyll-paginate
+
+# GitHub Pages compatibility
+remote_theme: jekyll/minima
+
+# SEO Tag plugin settings
+seo:
+  type: Person
+
+# Analytics (uncomment and add your IDs)
+# google_analytics: G-XXXXXXXXXX
+# plausible_domain: yourdomain.com
+
+# Show drafts in development
+show_drafts: false
+
+# Pagination
+paginate: 5
+paginate_path: "/blog/page:num/"
+
+
+
+# Defaults
+defaults:
+  - scope:
+      path: ""
+      type: "posts"
+    values:
+      layout: "post"
+      author: "Ye Htet Maung Maung"
+
+# Exclude from processing
+exclude:
+  - .sass-cache/
+  - .jekyll-cache/
+  - gemfiles/
+  - Gemfile
+  - Gemfile.lock
+  - node_modules/
+  - vendor/bundle/
+  - vendor/cache/
+  - vendor/gems/
+  - vendor/ruby/
+  - Dockerfile
+  - docker-compose.yml
+  - .dockerignore
+  - README.md
+
+# Sass configuration
+sass:
+  sass_dir: _sass
+  style: compressed
+
+# Production optimizations
+future: false
+unpublished: false
+safe: true

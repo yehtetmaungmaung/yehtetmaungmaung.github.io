@@ -1,0 +1,126 @@
+---
+layout: default
+body_class: "blog-page"
+---
+
+<div class="container">
+  <!-- Blog Header -->
+  <header class="blog-header">
+    <h1 class="blog-title">{{ page.title | default: "Blog" }}</h1>
+    {% if page.description %}
+      <p class="blog-description">{{ page.description }}</p>
+    {% endif %}
+  </header>
+
+  <!-- Blog Search and Filters -->
+  <div class="blog-controls">
+    <div class="blog-search">
+      <input type="text" id="blog-search" placeholder="Search posts..." class="search-input">
+      <button type="button" class="search-btn" aria-label="Search">
+        <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+          <circle cx="11" cy="11" r="8"></circle>
+          <path d="m21 21-4.35-4.35"></path>
+        </svg>
+      </button>
+    </div>
+    
+    <div class="blog-filters">
+      <select id="category-filter" class="filter-select">
+        <option value="">All Categories</option>
+        {% assign categories = site.categories | sort %}
+        {% for category in categories %}
+          <option value="{{ category[0] }}">{{ category[0] | capitalize }}</option>
+        {% endfor %}
+      </select>
+      
+      <select id="tag-filter" class="filter-select">
+        <option value="">All Tags</option>
+        {% assign tags = site.tags | sort %}
+        {% for tag in tags %}
+          <option value="{{ tag[0] }}">{{ tag[0] | capitalize }}</option>
+        {% endfor %}
+      </select>
+    </div>
+  </div>
+
+  <!-- Blog Posts Grid -->
+  <div class="blog-posts" id="blog-posts">
+    {% if paginator %}
+      {% assign posts = paginator.posts %}
+    {% else %}
+      {% assign posts = site.posts %}
+    {% endif %}
+    {% if posts.size > 0 %}
+      {% for post in posts %}
+        <article class="post-card" data-categories="{{ post.categories | join: ',' }}" data-tags="{{ post.tags | join: ',' }}">
+          {% if post.featured_image %}
+            <div class="post-image">
+              <a href="{{ post.url | relative_url }}">
+                <img src="{{ post.featured_image }}" alt="{{ post.title }}" loading="lazy">
+              </a>
+            </div>
+          {% endif %}
+          
+          <div class="post-content">
+            <div class="post-meta">
+              <time class="post-date" datetime="{{ post.date | date_to_xmlschema }}">
+                {{ post.date | date: "%B %d, %Y" }}
+              </time>
+              {% assign reading_time = post.content | reading_time %}
+              <span class="post-reading-time">{{ reading_time }} min read</span>
+            </div>
+            
+            <h2 class="post-title">
+              <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
+            </h2>
+            
+            {% if post.excerpt %}
+              <p class="post-excerpt">{{ post.excerpt | strip_html | truncatewords: 30 }}</p>
+            {% endif %}
+            
+            <div class="post-footer">
+              {% if post.categories.size > 0 %}
+                <div class="post-categories">
+                  {% for category in post.categories %}
+                    <span class="category-tag">{{ category }}</span>
+                  {% endfor %}
+                </div>
+              {% endif %}
+              
+              <a href="{{ post.url | relative_url }}" class="read-more">Read More</a>
+            </div>
+          </div>
+        </article>
+      {% endfor %}
+    {% else %}
+      <div class="no-posts">
+        <h3>No posts yet</h3>
+        <p>Check back soon for new content!</p>
+      </div>
+    {% endif %}
+  </div>
+
+  <!-- Pagination -->
+  {% if paginator %}
+    <nav class="pagination" aria-label="Blog pagination">
+      {% if paginator.previous_page %}
+        <a href="{{ paginator.previous_page_path | relative_url }}" class="pagination-btn pagination-prev">
+          <span>← Previous</span>
+        </a>
+      {% endif %}
+      
+      <div class="pagination-info">
+        Page {{ paginator.page }} of {{ paginator.total_pages }}
+      </div>
+      
+      {% if paginator.next_page %}
+        <a href="{{ paginator.next_page_path | relative_url }}" class="pagination-btn pagination-next">
+          <span>Next →</span>
+        </a>
+      {% endif %}
+    </nav>
+  {% endif %}
+</div>
+
+<!-- Additional content from page -->
+{{ content }}

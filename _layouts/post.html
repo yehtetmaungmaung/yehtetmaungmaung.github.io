@@ -1,0 +1,150 @@
+---
+layout: default
+body_class: "post-page"
+---
+
+<article class="post">
+  <div class="container">
+    <!-- Post Header -->
+    <header class="post-header">
+      {% if page.featured_image %}
+        <div class="post-featured-image">
+          <img src="{{ page.featured_image }}" alt="{{ page.title }}" class="featured-image">
+        </div>
+      {% endif %}
+      
+      <div class="post-meta">
+        <div class="post-categories">
+          {% for category in page.categories %}
+            <a href="/blog/category/{{ category | slugify }}" class="category-link">{{ category }}</a>
+          {% endfor %}
+        </div>
+        
+        <time class="post-date" datetime="{{ page.date | date_to_xmlschema }}">
+          {{ page.date | date: "%B %d, %Y" }}
+        </time>
+        
+        {% assign reading_time = content | reading_time %}
+        <span class="reading-time">{{ reading_time }} min read</span>
+        
+        {% if page.author %}
+          <span class="post-author">by {{ page.author }}</span>
+        {% endif %}
+      </div>
+      
+      <h1 class="post-title">{{ page.title }}</h1>
+      
+      {% if page.excerpt %}
+        <p class="post-excerpt">{{ page.excerpt }}</p>
+      {% endif %}
+      
+      <!-- Social Sharing Buttons -->
+      <div class="social-sharing">
+        <span class="sharing-label">Share:</span>
+        <div class="sharing-buttons">
+          <a href="https://twitter.com/intent/tweet?text={{ page.title | url_encode }}&url={{ page.url | absolute_url | url_encode }}" 
+             target="_blank" 
+             rel="noopener noreferrer" 
+             class="share-btn share-twitter"
+             aria-label="Share on Twitter">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/>
+            </svg>
+          </a>
+          
+          <a href="https://www.facebook.com/sharer/sharer.php?u={{ page.url | absolute_url | url_encode }}" 
+             target="_blank" 
+             rel="noopener noreferrer" 
+             class="share-btn share-facebook"
+             aria-label="Share on Facebook">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+            </svg>
+          </a>
+          
+          <a href="https://www.linkedin.com/sharing/share-offsite/?url={{ page.url | absolute_url | url_encode }}" 
+             target="_blank" 
+             rel="noopener noreferrer" 
+             class="share-btn share-linkedin"
+             aria-label="Share on LinkedIn">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+            </svg>
+          </a>
+          
+          <button class="share-btn share-copy" onclick="copyToClipboard('{{ page.url | absolute_url }}')" aria-label="Copy link">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
+              <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Post Content -->
+    <div class="post-content">
+      {{ content }}
+    </div>
+
+    <!-- Post Tags -->
+    {% if page.tags.size > 0 %}
+      <div class="post-tags">
+        <span class="tags-label">Tags:</span>
+        <div class="tag-list">
+          {% for tag in page.tags %}
+            <a href="/blog/tag/{{ tag | slugify }}" class="tag-link">{{ tag }}</a>
+          {% endfor %}
+        </div>
+      </div>
+    {% endif %}
+
+    <!-- Post Navigation -->
+    <nav class="post-navigation">
+      {% if page.previous %}
+        <div class="nav-previous">
+          <span class="nav-label">Previous Post</span>
+          <a href="{{ page.previous.url | relative_url }}" class="nav-link">
+            {{ page.previous.title }}
+          </a>
+        </div>
+      {% endif %}
+      
+      {% if page.next %}
+        <div class="nav-next">
+          <span class="nav-label">Next Post</span>
+          <a href="{{ page.next.url | relative_url }}" class="nav-link">
+            {{ page.next.title }}
+          </a>
+        </div>
+      {% endif %}
+    </nav>
+
+    <!-- Related Posts -->
+    {% assign related_posts = site.related_posts | limit: 3 %}
+    {% if related_posts.size > 0 %}
+      <section class="related-posts">
+        <h3 class="related-title">Related Posts</h3>
+        <div class="related-grid">
+          {% for post in related_posts %}
+            <article class="related-post">
+              {% if post.featured_image %}
+                <div class="related-image">
+                  <a href="{{ post.url | relative_url }}">
+                    <img src="{{ post.featured_image }}" alt="{{ post.title }}" loading="lazy">
+                  </a>
+                </div>
+              {% endif %}
+              <div class="related-content">
+                <h4 class="related-post-title">
+                  <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
+                </h4>
+                <time class="related-date">{{ post.date | date: "%B %d, %Y" }}</time>
+              </div>
+            </article>
+          {% endfor %}
+        </div>
+      </section>
+    {% endif %}
+  </div>
+</article>

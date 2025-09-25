@@ -1,0 +1,226 @@
+// Site Header
+.site-header {
+  background-color: $background-color;
+  border-bottom: 1px solid $border-color;
+  position: sticky;
+  top: 0;
+  z-index: $z-index-sticky;
+  box-shadow: $box-shadow-sm;
+}
+
+// Navbar
+.navbar {
+  padding: map-get($spacers, 3) 0;
+  
+  .container {
+    @include flex-between;
+  }
+}
+
+// Brand
+.navbar-brand {
+  .brand-link {
+    @include heading-style(1.5rem, $font-weight-bold);
+    color: $primary-color;
+    text-decoration: none;
+    margin-bottom: 0;
+    
+    &:hover {
+      color: $secondary-color;
+      text-decoration: none;
+    }
+    
+    &:focus {
+      @include focus-outline;
+    }
+  }
+  
+  .brand-text {
+    display: inline-block;
+  }
+}
+
+// Enhanced Mobile toggle button
+.navbar-toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  padding: 0;
+  background: none;
+  border: 2px solid transparent;
+  border-radius: $border-radius;
+  cursor: pointer;
+  transition: $transition-base;
+  position: relative;
+  z-index: $z-index-dropdown + 1;
+  
+  &:hover {
+    background-color: rgba($primary-color, 0.1);
+    border-color: rgba($primary-color, 0.2);
+  }
+  
+  &:focus {
+    @include focus-outline;
+    background-color: rgba($primary-color, 0.1);
+  }
+  
+  .hamburger-line {
+    display: block;
+    width: 1.5rem;
+    height: 2px;
+    background-color: $primary-color;
+    margin: 2px 0;
+    transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    transform-origin: center;
+    border-radius: 1px;
+  }
+  
+  &[aria-expanded="true"] {
+    .hamburger-line {
+      &:nth-child(1) {
+        transform: rotate(45deg) translate(5px, 5px);
+        background-color: $secondary-color;
+      }
+      
+      &:nth-child(2) {
+        opacity: 0;
+        transform: scale(0);
+      }
+      
+      &:nth-child(3) {
+        transform: rotate(-45deg) translate(7px, -6px);
+        background-color: $secondary-color;
+      }
+    }
+  }
+  
+  @include media-breakpoint-down(md) {
+    display: flex;
+  }
+}
+
+// Enhanced Navigation menu with better mobile experience
+.navbar-menu {
+  @include media-breakpoint-down(md) {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background-color: $background-color;
+    border-top: 1px solid $border-color;
+    box-shadow: $box-shadow-lg;
+    max-height: 0;
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    opacity: 0;
+    transform: translateY(-10px);
+    z-index: $z-index-dropdown;
+    
+    &.show {
+      max-height: 25rem;
+      opacity: 1;
+      transform: translateY(0);
+    }
+    
+    // Add backdrop blur effect for modern browsers
+    @supports (backdrop-filter: blur(10px)) {
+      backdrop-filter: blur(10px);
+      background-color: rgba($background-color, 0.95);
+    }
+  }
+  
+  @include media-breakpoint-up(md) {
+    display: flex !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
+// Navigation list
+.navbar-nav {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  
+  @include media-breakpoint-down(md) {
+    flex-direction: column;
+    padding: map-get($spacers, 3);
+  }
+}
+
+// Navigation items
+.nav-item {
+  margin: 0;
+  
+  @include media-breakpoint-up(md) {
+    margin-left: map-get($spacers, 4);
+    
+    &:first-child {
+      margin-left: 0;
+    }
+  }
+  
+  @include media-breakpoint-down(md) {
+    margin-bottom: map-get($spacers, 2);
+    
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+}
+
+// Navigation links
+.nav-link {
+  display: block;
+  padding: map-get($spacers, 2) 0;
+  color: $text-color;
+  font-weight: $font-weight-medium;
+  text-decoration: none;
+  transition: $transition-base;
+  position: relative;
+  
+  &:hover {
+    color: $secondary-color;
+    text-decoration: none;
+  }
+  
+  &:focus {
+    @include focus-outline;
+  }
+  
+  &.active {
+    color: $secondary-color;
+    
+    @include media-breakpoint-up(md) {
+      &::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background-color: $secondary-color;
+      }
+    }
+  }
+  
+  @include media-breakpoint-down(md) {
+    padding: map-get($spacers, 3) 0;
+    border-bottom: 1px solid $border-color;
+    
+    &:last-child {
+      border-bottom: none;
+    }
+    
+    &.active {
+      background-color: rgba($secondary-color, 0.1);
+      padding-left: map-get($spacers, 3);
+      margin-left: -#{map-get($spacers, 3)};
+      margin-right: -#{map-get($spacers, 3)};
+    }
+  }
+}

@@ -1,0 +1,30 @@
+{% comment %}
+Responsive Image Include
+Usage: {% include responsive-image.html src="path/to/image.jpg" alt="Alt text" class="additional-classes" %}
+{% endcomment %}
+
+{% assign image_path = include.src %}
+{% assign image_alt = include.alt | default: "" %}
+{% assign image_class = include.class | default: "" %}
+{% assign lazy = include.lazy | default: true %}
+{% assign sizes = include.sizes | default: "(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" %}
+
+{% if lazy %}
+<img 
+  data-src="{{ image_path | relative_url }}"
+  alt="{{ image_alt }}"
+  class="img-responsive {{ image_class }}"
+  sizes="{{ sizes }}"
+  loading="lazy"
+  decoding="async"
+/>
+{% else %}
+<img 
+  src="{{ image_path | relative_url }}"
+  alt="{{ image_alt }}"
+  class="img-responsive {{ image_class }}"
+  sizes="{{ sizes }}"
+  loading="eager"
+  decoding="async"
+/>
+{% endif %}

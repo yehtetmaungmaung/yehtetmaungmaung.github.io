@@ -1,0 +1,123 @@
+// Media Query Mixins
+@mixin media-breakpoint-up($name) {
+  @if $name == sm {
+    @media (min-width: $breakpoint-sm) { @content; }
+  } @else if $name == md {
+    @media (min-width: $breakpoint-md) { @content; }
+  } @else if $name == lg {
+    @media (min-width: $breakpoint-lg) { @content; }
+  } @else if $name == xl {
+    @media (min-width: $breakpoint-xl) { @content; }
+  } @else if $name == xxl {
+    @media (min-width: $breakpoint-xxl) { @content; }
+  }
+}
+
+@mixin media-breakpoint-down($name) {
+  @if $name == sm {
+    @media (max-width: $breakpoint-sm - 1px) { @content; }
+  } @else if $name == md {
+    @media (max-width: $breakpoint-md - 1px) { @content; }
+  } @else if $name == lg {
+    @media (max-width: $breakpoint-lg - 1px) { @content; }
+  } @else if $name == xl {
+    @media (max-width: $breakpoint-xl - 1px) { @content; }
+  } @else if $name == xxl {
+    @media (max-width: $breakpoint-xxl - 1px) { @content; }
+  }
+}
+
+// Container Mixin
+@mixin make-container($max-width: null) {
+  width: 100%;
+  padding-right: map-get($spacers, 3);
+  padding-left: map-get($spacers, 3);
+  margin-right: auto;
+  margin-left: auto;
+  
+  @if $max-width {
+    max-width: $max-width;
+  }
+}
+
+// Button Mixins
+@mixin button-variant($background, $border, $color: #fff) {
+  color: $color;
+  background-color: $background;
+  border-color: $border;
+  
+  &:hover {
+    color: $color;
+    background-color: darken($background, 7.5%);
+    border-color: darken($border, 10%);
+  }
+  
+  &:focus {
+    box-shadow: 0 0 0 0.2rem rgba($background, 0.5);
+  }
+  
+  &:active {
+    background-color: darken($background, 10%);
+    border-color: darken($border, 12.5%);
+  }
+}
+
+// Flexbox Utilities
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+// Typography Mixins
+@mixin heading-style($size: $font-size-xl, $weight: $font-weight-semibold) {
+  font-family: $font-family-heading;
+  font-size: $size;
+  font-weight: $weight;
+  line-height: $line-height-heading;
+  margin-bottom: map-get($spacers, 3);
+}
+
+// Card Mixin
+@mixin card {
+  background-color: $background-color;
+  border: 1px solid $border-color;
+  border-radius: $border-radius;
+  box-shadow: $box-shadow-sm;
+  padding: map-get($spacers, 4);
+}
+
+// Hover Effects
+@mixin hover-lift {
+  transition: $transition-base;
+  
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: $box-shadow;
+  }
+}
+
+// Visually Hidden (for accessibility)
+@mixin visually-hidden {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+// Focus Styles
+@mixin focus-outline {
+  outline: 2px solid $secondary-color;
+  outline-offset: 2px;
+}

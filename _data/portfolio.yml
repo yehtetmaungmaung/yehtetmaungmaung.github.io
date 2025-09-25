@@ -1,0 +1,82 @@
+# Portfolio Configuration
+personal:
+  name: "Ye Htet Maung Maung"
+  title: "DevOps & Cloud Engineer"
+  tagline: "Building scalable cloud infrastructure that matters"
+  bio: "Passionate cloud engineer with expertise in AWS, GCP and modern DevOps practices. I design and implement scalable cloud solutions that drive business success."
+  extended_bio: "I specialize in cloud architecture, infrastructure automation, and helping organizations migrate to the cloud efficiently and securely."
+  location: "Yangon, Myanmar"
+  avatar: "/assets/images/avatar.jpg"
+  resume_url: "/assets/resume.pdf"
+  
+  # Dynamic typing text for hero section
+  typing_text:
+    - "Cloud Engineer"
+    - "DevOps Specialist"
+    - "Infrastructure Architect"
+    - "Automation Expert"
+  
+  # Social media profiles
+  social:
+    github: "yehtetmaungmaung"
+    linkedin: "yehtetmaungmaung"
+
+# Quick stats for hero section
+stats:
+  - label: "Years Experience"
+    value: "3+"
+  - label: "Certifications"
+    value: "5+"
+
+# Featured skills for homepage
+featured_skills:
+  - "AWS"
+  - "Terraform"
+  - "Kubernetes"
+  - "Docker"
+  - "Python"
+  - "CI/CD"
+
+# Work Experience (chronological order, most recent first)
+experience:
+  - company: "Tech Solutions Inc."
+    position: "Senior Cloud Engineer"
+    duration: "2022 - Present"
+    location: "San Francisco, CA"
+    company_url: "https://techsolutions.com"
+    logo: "/assets/images/companies/techsolutions-logo.png"
+    description: "Lead cloud infrastructure design and implementation for enterprise clients. Architected multi-cloud solutions and established DevOps best practices."
+    achievements:
+      - "Reduced infrastructure costs by 40% through optimization and right-sizing"
+      - "Led migration of 50+ applications to AWS with zero downtime"
+      - "Implemented Infrastructure as Code reducing deployment time by 80%"
+    skills: ["AWS", "Terraform", "Kubernetes", "Docker", "Python", "Jenkins"]
+    
+  - company: "CloudTech Startup"
+    position: "DevOps Engineer"
+    duration: "2020 - 2022"
+    location: "Austin, TX"
+    company_url: "https://cloudtech.com"
+    logo: "/assets/images/companies/cloudtech-logo.png"
+    description: "Built CI/CD pipelines and automated infrastructure deployment. Managed containerized applications and monitoring systems."
+    achievements:
+      - "Implemented automated deployment pipeline reducing release time by 70%"
+      - "Set up comprehensive monitoring reducing incident response time by 60%"
+      - "Containerized legacy applications improving scalability"
+    skills: ["Docker", "Kubernetes", "GitLab CI", "Prometheus", "Grafana", "Ansible"]
+    
+  - company: "Enterprise Corp"
+    position: "Systems Administrator"
+    duration: "2019 - 2020"
+    location: "Remote"
+    company_url: "https://enterprisecorp.com"
+    logo: "/assets/images/companies/enterprise-logo.png"
+    description: "Managed on-premises infrastructure and initiated cloud migration projects. Maintained high availability systems and backup solutions."
+    achievements:
+      - "Maintained 99.9% uptime for critical business systems"
+      - "Planned and executed initial cloud migration strategy"
+      - "Automated routine tasks reducing manual work by 50%"
+    skills: ["Linux", "VMware", "PowerShell", "Bash", "Windows Server", "Backup Solutions"]
+
+
+

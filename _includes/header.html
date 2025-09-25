@@ -1,0 +1,47 @@
+<header class="site-header" role="banner">
+  <nav class="navbar" role="navigation" aria-label="Main navigation">
+    <div class="container">
+      <div class="navbar-brand">
+        <a href="{{ '/' | relative_url }}" class="brand-link" aria-label="Home">
+          <span class="brand-text">{{ site.title | default: site.author.name }}</span>
+        </a>
+      </div>
+      
+      <!-- Mobile menu toggle button -->
+      <button class="navbar-toggle" 
+              type="button" 
+              aria-controls="navbar-menu" 
+              aria-expanded="false" 
+              aria-label="Toggle navigation menu">
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+      </button>
+      
+      <!-- Navigation menu -->
+      <div class="navbar-menu" id="navbar-menu">
+        <ul class="navbar-nav" role="menubar">
+          <li class="nav-item" role="none">
+            <a href="{{ '/' | relative_url }}" 
+               class="nav-link{% if page.url == '/' %} active{% endif %}" 
+               role="menuitem"
+               {% if page.url == '/' %}aria-current="page"{% endif %}>
+              Home
+            </a>
+          </li>
+
+
+          <li class="nav-item" role="none">
+            <a href="{{ '/blog/' | relative_url }}" 
+               class="nav-link{% if page.url contains '/blog' or layout == 'post' %} active{% endif %}" 
+               role="menuitem"
+               {% if page.url contains '/blog' or layout == 'post' %}aria-current="page"{% endif %}>
+              Blog
+            </a>
+          </li>
+
+        </ul>
+      </div>
+    </div>
+  </nav>
+</header>

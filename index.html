@@ -1,0 +1,144 @@
+---
+layout: home
+title: Home
+---
+
+<!-- Recent Posts Section -->
+<section class="recent-posts section">
+  <h2 class="text-center mb-5">Latest from the Blog</h2>
+  {% if site.posts.size > 0 %}
+    <div class="grid grid-cols-1 grid-md-cols-3 gap-4">
+      {% for post in site.posts limit:3 %}
+        <div>
+          <article class="card card-hover">
+            <div class="card-body">
+              <span class="text-muted">{{ post.date | date: "%b %-d, %Y" }}</span>
+              <h3 class="mt-2">
+                <a href="{{ post.url | relative_url }}" class="text-decoration-none">
+                  {{ post.title | escape }}
+                </a>
+              </h3>
+              {% if post.excerpt %}
+                <p class="text-muted">{{ post.excerpt | strip_html | truncate: 120 }}</p>
+              {% endif %}
+            </div>
+          </article>
+        </div>
+      {% endfor %}
+    </div>
+    <div class="text-center mt-4">
+      <a href="/blog/" class="btn btn-outline-primary">View All Posts</a>
+    </div>
+  {% else %}
+    <div class="text-center">
+      <p class="text-muted">No posts yet. Check back soon!</p>
+      <a href="/blog/" class="btn btn-primary">Start Reading</a>
+    </div>
+  {% endif %}
+</section>
+
+<!-- About Preview Section -->
+<section class="about-preview section bg-light">
+  <div class="grid grid-cols-1 grid-lg-cols-2 align-items-center gap-5">
+    <div>
+      <h2>About Me</h2>
+      <p class="lead">{{ site.data.portfolio.personal.bio }}</p>
+      <p>{{ site.data.portfolio.personal.extended_bio }}</p>
+    </div>
+    <div>
+      <div class="skills-preview">
+        <h4>Core Technologies</h4>
+        <div class="skills-grid">
+          {% for skill in site.data.portfolio.featured_skills %}
+            <span class="skill-badge">{{ skill }}</span>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+<!-- Experience Timeline Section -->
+<section class="experience-timeline section bg-light">
+  <h2 class="text-center mb-5">Professional Experience</h2>
+  <div class="timeline">
+    {% for job in site.data.portfolio.experience %}
+      <div class="timeline-item" data-job-index="{{ forloop.index0 }}">
+        <div class="timeline-marker">
+          <div class="timeline-dot"></div>
+        </div>
+        <div class="timeline-content">
+          <div class="job-header">
+            <div class="job-company">
+              {% if job.logo %}
+                <img src="{{ job.logo | relative_url }}" alt="{{ job.company }} logo" class="company-logo">
+              {% endif %}
+              <div class="job-details">
+                <h3 class="job-position">{{ job.position }}</h3>
+                <h4 class="company-name">
+                  {% if job.company_url %}
+                    <a href="{{ job.company_url }}" target="_blank" rel="noopener">{{ job.company }}</a>
+                  {% else %}
+                    {{ job.company }}
+                  {% endif %}
+                </h4>
+                <div class="job-meta">
+                  <span class="job-duration">{{ job.duration }}</span>
+                  {% if job.location %}
+                    <span class="job-location">{{ job.location }}</span>
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+            <button class="expand-btn" aria-label="Expand job details" data-target="job-{{ forloop.index0 }}">
+              <i class="expand-icon">+</i>
+            </button>
+          </div>
+          
+          <div class="job-description" id="job-{{ forloop.index0 }}">
+            <p>{{ job.description }}</p>
+            
+            {% if job.achievements %}
+              <div class="achievements">
+                <h5>Key Achievements:</h5>
+                <ul>
+                  {% for achievement in job.achievements %}
+                    <li>{{ achievement }}</li>
+                  {% endfor %}
+                </ul>
+              </div>
+            {% endif %}
+            
+            {% if job.skills %}
+              <div class="job-skills">
+                <h5>Technologies Used:</h5>
+                <div class="skills-tags">
+                  {% for skill in job.skills %}
+                    <span class="skill-tag">{{ skill }}</span>
+                  {% endfor %}
+                </div>
+              </div>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+  
+  <div class="text-center mt-5">
+    <a href="{{ site.data.portfolio.personal.resume_url }}" class="btn btn-outline-primary" target="_blank">
+      <i class="download-icon">↓</i> Download Full Resume
+    </a>
+  </div>
+</section>
+
+<!-- CTA Section -->
+<section class="cta-section section text-center">
+  <h2>Interested in My Work?</h2>
+  <p class="lead">Check out my blog posts to learn more about my cloud engineering journey.</p>
+  <div class="cta-buttons">
+    <a href="/blog/" class="btn btn-primary btn-lg">Read My Blog</a>
+  </div>
+</section>

@@ -1,0 +1,361 @@
+---
+layout: default
+title: Search
+description: Search through blog posts and content
+permalink: /search/
+---
+
+<div class="search-page">
+  <div class="container">
+    <header class="page-header">
+      <h1 class="page-title">Search</h1>
+      <p class="page-description">Find blog posts and content across the site.</p>
+    </header>
+
+    <div class="search-container">
+      <div class="search-input-wrapper">
+        <input type="text" 
+               id="search-input" 
+               class="search-input" 
+               placeholder="Search for posts, topics, or keywords..."
+               autocomplete="off">
+        <button type="button" class="search-clear" id="search-clear" aria-label="Clear search">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+
+      <div class="search-results" id="search-results">
+        <div class="search-status" id="search-status">
+          <p>Enter a search term to find relevant content.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Popular Posts Section -->
+    <section class="popular-posts">
+      <h2>Popular Posts</h2>
+      <div class="posts-grid">
+        {% assign popular_posts = site.posts | limit: 6 %}
+        {% for post in popular_posts %}
+          <article class="post-card">
+            {% if post.featured_image %}
+              <div class="post-image">
+                <a href="{{ post.url | relative_url }}">
+                  <img src="{{ post.featured_image }}" alt="{{ post.title }}" loading="lazy">
+                </a>
+              </div>
+            {% endif %}
+            <div class="post-content">
+              <div class="post-meta">
+                <time datetime="{{ post.date | date_to_xmlschema }}">
+                  {{ post.date | date: "%B %d, %Y" }}
+                </time>
+                {% if post.categories.size > 0 %}
+                  <span class="post-category">{{ post.categories.first }}</span>
+                {% endif %}
+              </div>
+              <h3 class="post-title">
+                <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
+              </h3>
+              {% if post.excerpt %}
+                <p class="post-excerpt">{{ post.excerpt | strip_html | truncate: 120 }}</p>
+              {% endif %}
+            </div>
+          </article>
+        {% endfor %}
+      </div>
+    </section>
+  </div>
+</div>
+
+<!-- Search functionality script -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const searchInput = document.getElementById('search-input');
+  const searchClear = document.getElementById('search-clear');
+  const searchResults = document.getElementById('search-results');
+  const searchStatus = document.getElementById('search-status');
+  
+  // Get search query from URL parameters
+  const urlParams = new URLSearchParams(window.location.search);
+  const query = urlParams.get('q');
+  if (query) {
+    searchInput.value = query;
+    performSearch(query);
+  }
+  
+  // Search input event listeners
+  searchInput.addEventListener('input', function() {
+    const query = this.value.trim();
+    if (query.length > 2) {
+      performSearch(query);
+    } else if (query.length === 0) {
+      clearSearch();
+    }
+    
+    // Show/hide clear button
+    searchClear.style.display = query.length > 0 ? 'block' : 'none';
+  });
+  
+  // Clear search
+  searchClear.addEventListener('click', function() {
+    searchInput.value = '';
+    clearSearch();
+    searchClear.style.display = 'none';
+    searchInput.focus();
+  });
+  
+  // Search posts data
+  const posts = [
+    {% for post in site.posts %}
+    {
+      title: {{ post.title | jsonify }},
+      url: {{ post.url | relative_url | jsonify }},
+      date: {{ post.date | date: "%B %d, %Y" | jsonify }},
+      excerpt: {{ post.excerpt | strip_html | truncate: 150 | jsonify }},
+      categories: {{ post.categories | jsonify }},
+      tags: {{ post.tags | jsonify }},
+      content: {{ post.content | strip_html | jsonify }}
+    }{% unless forloop.last %},{% endunless %}
+    {% endfor %}
+  ];
+  
+  function performSearch(query) {
+    const results = searchPosts(query, posts);
+    displayResults(results, query);
+  }
+  
+  function searchPosts(query, posts) {
+    const searchTerms = query.toLowerCase().split(' ');
+    
+    return posts.filter(post => {
+      const searchableText = [
+        post.title,
+        post.excerpt,
+        post.categories.join(' '),
+        post.tags.join(' '),
+        post.content
+      ].join(' ').toLowerCase();
+      
+      return searchTerms.every(term => searchableText.includes(term));
+    }).slice(0, 10); // Limit to 10 results
+  }
+  
+  function displayResults(results, query) {
+    if (results.length === 0) {
+      searchStatus.innerHTML = `<p>No results found for "<strong>${query}</strong>". Try different keywords.</p>`;
+      searchResults.innerHTML = '';
+      return;
+    }
+    
+    searchStatus.innerHTML = `<p>Found ${results.length} result${results.length !== 1 ? 's' : ''} for "<strong>${query}</strong>"</p>`;
+    
+    const resultsHTML = results.map(post => `
+      <article class="search-result">
+        <h3 class="result-title">
+          <a href="${post.url}">${highlightText(post.title, query)}</a>
+        </h3>
+        <div class="result-meta">
+          <time>${post.date}</time>
+          ${post.categories.length > 0 ? `<span class="result-category">${post.categories[0]}</span>` : ''}
+        </div>
+        <p class="result-excerpt">${highlightText(post.excerpt, query)}</p>
+      </article>
+    `).join('');
+    
+    searchResults.innerHTML = resultsHTML;
+  }
+  
+  function highlightText(text, query) {
+    const searchTerms = query.toLowerCase().split(' ');
+    let highlightedText = text;
+    
+    searchTerms.forEach(term => {
+      const regex = new RegExp(`(${term})`, 'gi');
+      highlightedText = highlightedText.replace(regex, '<mark>$1</mark>');
+    });
+    
+    return highlightedText;
+  }
+  
+  function clearSearch() {
+    searchStatus.innerHTML = '<p>Enter a search term to find relevant content.</p>';
+    searchResults.innerHTML = '';
+  }
+});
+</script>
+
+<style>
+.search-page {
+  padding: 2rem 0;
+}
+
+.search-input-wrapper {
+  position: relative;
+  margin-bottom: 2rem;
+}
+
+.search-input {
+  width: 100%;
+  padding: 1rem 3rem 1rem 1rem;
+  font-size: 1.1rem;
+  border: 2px solid #e2e8f0;
+  border-radius: 0.5rem;
+  background: white;
+  transition: border-color 0.2s ease;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.search-clear {
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.25rem;
+  color: #6b7280;
+  display: none;
+}
+
+.search-clear:hover {
+  color: #374151;
+}
+
+.search-clear svg {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.search-status {
+  margin-bottom: 1.5rem;
+  color: #6b7280;
+}
+
+.search-result {
+  padding: 1.5rem 0;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.search-result:last-child {
+  border-bottom: none;
+}
+
+.result-title {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.25rem;
+}
+
+.result-title a {
+  color: #1f2937;
+  text-decoration: none;
+}
+
+.result-title a:hover {
+  color: #3b82f6;
+}
+
+.result-meta {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 0.75rem;
+  font-size: 0.875rem;
+  color: #6b7280;
+}
+
+.result-category {
+  background: #f3f4f6;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+}
+
+.result-excerpt {
+  color: #4b5563;
+  line-height: 1.6;
+}
+
+mark {
+  background: #fef3c7;
+  padding: 0.125rem 0.25rem;
+  border-radius: 0.25rem;
+}
+
+.popular-posts {
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 1px solid #e5e7eb;
+}
+
+.posts-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.post-card {
+  background: white;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.post-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.post-image img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.post-content {
+  padding: 1.25rem;
+}
+
+.post-meta {
+  display: flex;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+  font-size: 0.875rem;
+  color: #6b7280;
+}
+
+.post-category {
+  background: #f3f4f6;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+}
+
+.post-title {
+  margin: 0 0 0.75rem 0;
+  font-size: 1.125rem;
+}
+
+.post-title a {
+  color: #1f2937;
+  text-decoration: none;
+}
+
+.post-title a:hover {
+  color: #3b82f6;
+}
+
+.post-excerpt {
+  color: #4b5563;
+  line-height: 1.6;
+  margin: 0;
+}
+</style>

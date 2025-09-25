@@ -1,0 +1,15 @@
+<!-- Performance optimizations -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="dns-prefetch" href="//github.com">
+<link rel="dns-prefetch" href="//linkedin.com">
+
+<!-- Preload critical resources -->
+<link rel="preload" href="{{ '/assets/css/main.css' | relative_url }}" as="style">
+
+<!-- Critical CSS inlining for above-the-fold content -->
+<style>
+  /* Critical CSS - Add your most important styles here */
+  .hero-section { min-height: 100vh; }
+  .navbar { position: fixed; top: 0; width: 100%; z-index: 1000; }
+</style>

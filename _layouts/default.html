@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+{% comment %}Enhanced SEO component handles the html lang attribute{% endcomment %}
+<head>
+  <!-- Enhanced SEO and Meta Tags -->
+  {% include seo.html %}
+  
+  <!-- Preconnect to external domains -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+  
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="{{ '/assets/css/main.css' | relative_url }}">
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/x-icon" href="{{ '/assets/favicon.ico' | relative_url }}">
+  
+  <!-- RSS Feed -->
+  {% feed_meta %}
+  
+  <!-- Additional head content -->
+  {% if page.additional_head %}
+    {{ page.additional_head }}
+  {% endif %}
+</head>
+
+<body class="page-layout {{ page.body_class }}">
+  <!-- Skip to main content link for accessibility -->
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+  
+  <!-- Header and Navigation -->
+  {% include header.html %}
+  
+  <!-- Main Content -->
+  <main id="main-content" role="main" class="main-content">
+    {{ content }}
+  </main>
+  
+  <!-- Footer -->
+  {% include footer.html %}
+  
+  <!-- JavaScript -->
+  <script src="{{ '/assets/js/main.js' | relative_url }}"></script>
+  
+  <!-- Additional scripts -->
+  {% if page.additional_scripts %}
+    {{ page.additional_scripts }}
+  {% endif %}
+</body>
+</html>
