@@ -1,0 +1,32 @@
+HTTP/2 200 
+content-type: image/svg+xml
+content-length: 1170
+date: Thu, 25 Sep 2025 07:26:27 GMT
+last-modified: Thu, 19 Oct 2023 03:34:14 GMT
+etag: "8230e729f995c3e2d7a7f4b25406b137"
+x-amz-server-side-encryption: AES256
+accept-ranges: bytes
+server: AmazonS3
+x-cache: Hit from cloudfront
+via: 1.1 500f4e37798a0a47047ecfa48f4fd932.cloudfront.net (CloudFront)
+x-amz-cf-pop: SIN2-P1
+x-amz-cf-id: 0fEOjsp7lhEZlrLeFdKJg7C2VC9gwrjwXgtCm9X7TuRhnY_-R6vaMA==
+age: 10
+
+<svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g clip-path="url(#clip0_10065_27343)">
+<g clip-path="url(#clip1_10065_27343)">
+<path d="M48 0H0V48H48V0Z" fill="#0A56BB"/>
+<path d="M24.0006 7.99219C17.2395 7.99219 11.7603 13.4727 11.7603 20.2325C11.7603 26.9923 17.2408 32.4729 24.0006 32.4729C30.7604 32.4729 36.2409 26.9911 36.2409 20.2325C36.2409 13.474 30.7604 7.99219 24.0006 7.99219ZM24.0006 27.7662C19.8411 27.7662 16.4682 24.3933 16.4682 20.2338C16.4682 16.0743 19.8411 12.7014 24.0006 12.7014C28.1601 12.7014 31.533 16.0743 31.533 20.2338C31.533 24.3933 28.1601 27.7662 24.0006 27.7662Z" fill="white"/>
+<path d="M36.2271 35.7761C32.8618 38.4271 28.6174 40.0078 24.0007 40.0078C19.384 40.0078 15.1257 38.422 11.7578 35.7647H11.7591L14.3822 32.4348C17.0281 34.5235 20.3694 35.7698 23.9994 35.7698C27.6295 35.7698 30.9593 34.5285 33.604 32.4437L36.2258 35.7748L36.2271 35.7761Z" fill="#F7941D"/>
+</g>
+</g>
+<defs>
+<clipPath id="clip0_10065_27343">
+<rect width="48" height="48" fill="white"/>
+</clipPath>
+<clipPath id="clip1_10065_27343">
+<rect width="48" height="48" rx="12" fill="white"/>
+</clipPath>
+</defs>
+</svg>
